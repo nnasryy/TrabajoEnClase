@@ -1,6 +1,6 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package trabajoenclase1;
 
@@ -19,7 +19,6 @@ public class EmpleadoManager {
     /**
      * @param args the command line arguments
      */
-    //El mismo programa daria el codigo
     /*
     Formato:
     1- File Codigos.emp:
@@ -105,8 +104,8 @@ public class EmpleadoManager {
                 rventas.writeDouble(0);
                 rventas.writeBoolean(false);
             }
-            rventas.close();
         }
+        rventas.close();
     }
 
     private void createEmployeeFolders(int code) throws IOException {
@@ -141,8 +140,8 @@ public class EmpleadoManager {
 
             if (remps.readLong() == 0 && cod == code) {
                 remps.seek(pos);
+                return true;
             }
-            return true;
         }
 
         return false;
@@ -169,6 +168,7 @@ public class EmpleadoManager {
             double monto = sales.readDouble();
             sales.seek(pos);
             sales.writeDouble(monto + amount);
+            sales.close();
         }
 
     }
@@ -186,13 +186,13 @@ public class EmpleadoManager {
         return new RandomAccessFile(path, "rw");
 
     }
-//isEmployeePayed
+      //isEmployeePayed
 
     private boolean isEmployeePayed(int code) throws IOException {
         RandomAccessFile sales = salesFileFor(code);
         int mesActual = Calendar.getInstance().get(Calendar.MONTH);
         //Aqui tomamos control del puntero
-        long pos = mesActual * 9;
+        long pos = (long) mesActual * 9;
         sales.seek(pos);
         //Salto el double porque no lo ocupo
         sales.skipBytes(8);
@@ -204,10 +204,11 @@ public class EmpleadoManager {
     }
 
     //payEmployee
+       //payEmployee
     public void payEmployee(int code) throws IOException {
         //Aqui valido
         if (!isEmployeeActive(code) || isEmployeePayed(code)) {
-            System.out.println("Error!");
+            System.out.println("No se pudo pagar"); 
             return;
         }
         //leo datos del empleado
@@ -240,7 +241,8 @@ public class EmpleadoManager {
         sales.seek(posSales + 8);
         sales.writeBoolean(true);
         sales.close();
-        System.out.println("Empleado:" + nombre + "se le pago Lps." + total);
+      
+        System.out.println("Empleado " + nombre + " se le pago Lps. " + total);
     }
     //printEmployee
 
@@ -264,33 +266,33 @@ public class EmpleadoManager {
             }
 
         }
-   
-        if(!encontrado){
+
+        if (!encontrado) {
             System.out.println("Empleado no existe.");
             return;
         }
 
-        // Paso 2 y 3: Ventas del año
+        //Ventas del año
         System.out.println("--- Ventas del Año ---");
         RandomAccessFile sales = salesFileFor(code);
         double totalVentas = 0;
-        
+
         for (int i = 0; i < 12; i++) {
             // Cada registro 9 bytes
             sales.seek(i * 9);
             double monto = sales.readDouble();
             totalVentas += monto;
-            System.out.println("Mes " + (i+1) + " : " + monto);
+            System.out.println("Mes " + (i + 1) + " : " + monto);
         }
         sales.close();
         System.out.println("Total de ventas del año: " + totalVentas);
 
-        // Paso 4: Contar recibos
+        // Contar recibos
         RandomAccessFile bills = billsFileFor(code);
-        // Cada recibo ocupa: 8(long) + 8(double) + 8(double) + 4(int) + 4(int) = 32 bytes
+        //  8(long) + 8(double) + 8(double) + 4(int) + 4(int) = 32 bytes
         long cantidad = bills.length() / 32;
         bills.close();
-        
+
         System.out.println("Total de pagos realizados: " + cantidad);
     }
 

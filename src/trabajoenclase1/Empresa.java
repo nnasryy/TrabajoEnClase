@@ -7,10 +7,6 @@ package trabajoenclase1;
 import java.io.IOException;
 import java.util.Scanner;
 
-/**
- *
- * @author nasry
- */
 public class Empresa {
     
     public static void main(String[] args) {
@@ -19,7 +15,7 @@ public class Empresa {
         int opcion = 0;
         
         do {
-            System.out.println("\n***** MENÚ PRINCIPAL *****");
+            System.out.println("***** MENÚ PRINCIPAL *****");
             System.out.println("1. Agregar Empleado");
             System.out.println("2. Listar Empleados NO Despedidos");
             System.out.println("3. Agregar Venta a Empleado");
@@ -68,7 +64,7 @@ public class Empresa {
                         manager.printEmployee(codI);
                         break;
                     case 7:
-                        System.out.println("Saliendo...");
+                        System.out.println("Salida!");
                         break;
                     default:
                         System.out.println("Opción inválida.");
