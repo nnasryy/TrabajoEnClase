@@ -203,7 +203,6 @@ public class EmpleadoManager {
 
     }
 
-    //payEmployee
        //payEmployee
     public void payEmployee(int code) throws IOException {
         //Aqui valido
